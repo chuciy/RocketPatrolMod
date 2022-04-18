@@ -1,3 +1,11 @@
+
+/*
+   #--------------------POINTS BREAKDOWN -----------------------------
+    High score
+    
+
+
+*/
 let config = {
     type: Phaser.CANVAS,
     width: 640,
@@ -11,5 +19,10 @@ let game = new Phaser.Game(config);
 let borderUISize = game.config.height / 15;
 let borderPadding = borderUISize / 3;
 
+let highscore = 0;
+
 // reserve keyboard variables
 let keyF, keyR, keyLEFT, keyRIGHT;
+
+console.log(game.config.width);
+
