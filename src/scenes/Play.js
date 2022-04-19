@@ -41,6 +41,9 @@ class Play extends Phaser.Scene {
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        // more keys
+        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
 
         // animation config
         this.anims.create({
@@ -71,9 +74,16 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 100
         }
+        // #text
         this.scoreRight = this.add.text(game.config.width - scoreConfig.fixedWidth - borderUISize - borderPadding, 
             borderUISize + borderPadding*2, highscore, scoreConfig);
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
+        this.timer_text = this.add.text(32, 32);
+        this.debugging_text = this.add.text(32, 400);
+        this.debugging_text.setText("Enemy speed: 1.0");
+
+
+
 
         // GAME OVER flag
         this.gameOver = false;
@@ -89,6 +99,10 @@ class Play extends Phaser.Scene {
             this.scoreRight = highscore;
 
         }, null, this);
+
+        // more features
+        this.skill_cd = false;
+
     }
 
     update() {
@@ -104,8 +118,31 @@ class Play extends Phaser.Scene {
         this.starfield.tilePositionX -= 4;  // update tile sprite
 
         if(!this.gameOver) {
+            //timer
+            this.timer_text.setText('Time remaining: ' + this.clock.getRemainingSeconds().toString().substr(0, 4));
+
+            // # Super fancy Time freeze skill
+            if(!this.skill_cd && Phaser.Input.Keyboard.JustDown(keyW)) {
+                this.sound.play('random1');
+                this.skill_cd = true;
+                this.skill_timer = this.time.delayedCall(3000, () => {
+                    this.skill_cd = false;
+                    this.ship01.moveSpeed = game.settings.spaceshipSpeed;
+                    this.debugging_text.setText("Enemy speed: 1.0");
+                }, null, this);
+            }
+
+            if(this.skill_cd){
+                let acc_ratio = Math.sin(this.skill_timer.getProgress() * Math.PI + Math.PI) + 1;
+                this.debugging_text.setText("Enemy speed: " + acc_ratio.toString().substr(0, 4));
+                this.ship01.moveSpeed = game.settings.spaceshipSpeed * acc_ratio;
+                this.ship02.moveSpeed = game.settings.spaceshipSpeed * acc_ratio;
+                this.ship03.moveSpeed = game.settings.spaceshipSpeed * acc_ratio;
+            }
+            // ----------------------
+
             this.p1Rocket.update();             // update p1
-             this.ship01.update();               // update spaceship (x3)
+            this.ship01.update();               // update spaceship (x3)
             this.ship02.update();
             this.ship03.update();
         }

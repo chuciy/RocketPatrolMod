@@ -2,7 +2,10 @@
 /*
    #--------------------POINTS BREAKDOWN -----------------------------
     High score
-    
+    New explosion animation 
+    Timer showing remaining
+    Super fancy skill to slow down the enemy speed with a smooth curve
+
 
 
 */
@@ -23,6 +26,10 @@ let highscore = 0;
 
 // reserve keyboard variables
 let keyF, keyR, keyLEFT, keyRIGHT;
+// # new features
+let keyW, keyQ;
+
+
 
 console.log(game.config.width);
 
