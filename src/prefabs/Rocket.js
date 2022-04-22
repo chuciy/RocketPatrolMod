@@ -15,10 +15,6 @@ class Rocket extends Phaser.GameObjects.Sprite {
     }
 
     update() {
-        // left/right movement
-        
-        
-
         //
 
 
@@ -29,10 +25,10 @@ class Rocket extends Phaser.GameObjects.Sprite {
                 this.x += this.moveSpeed;
             }
         }else{
-            if(keyQ.isDown && this.x >= borderUISize + this.width) {
+            if(keyQ.isDown && this.x >= borderUISize + this.width && !keyE.isDown) {
                 this.x -= 0.3 * this.moveSpeed;
                 this.y -= 0.2 * this.moveSpeed;
-            } else if (keyE.isDown && this.x <= game.config.width - borderUISize - this.width) {
+            } else if (keyE.isDown && this.x <= game.config.width - borderUISize - this.width && !keyQ.isDown) {
                 this.x += 0.3 * this.moveSpeed;
                 this.y -= 0.2 * this.moveSpeed;
             }
