@@ -32,9 +32,11 @@ class Play extends Phaser.Scene {
         this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0);
 
         // add Spaceships (x3)
-        this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 30).setOrigin(0, 0);
-        this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'spaceship', 0, 20).setOrigin(0,0);
-        this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 10).setOrigin(0,0);
+        this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4                  , 'spaceship', 0, 30, 1).setOrigin(0, 0);
+        this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'spaceship', 0, 20, 1.1).setOrigin(0,0);
+        this.ship03 = new Spaceship(this, game.config.width                 , borderUISize*6 + borderPadding*4, 'spaceship', 0, 10, 1.2).setOrigin(0,0);
+
+        this.ship04 = new Spaceship(this, game.config.width                 , borderUISize*7 + borderPadding*6, 'spaceship', 0, 51, 1.75).setOrigin(0,0);
 
         // define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -44,6 +46,7 @@ class Play extends Phaser.Scene {
         // more keys
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+        keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
 
         // animation config
         this.anims.create({
@@ -128,6 +131,10 @@ class Play extends Phaser.Scene {
                 this.skill_timer = this.time.delayedCall(3000, () => {
                     this.skill_cd = false;
                     this.ship01.moveSpeed = game.settings.spaceshipSpeed;
+                    this.ship02.moveSpeed = game.settings.spaceshipSpeed;
+                    this.ship03.moveSpeed = game.settings.spaceshipSpeed;
+                    this.ship04.moveSpeed = game.settings.spaceshipSpeed;
+
                     this.debugging_text.setText("Enemy speed: 1.0");
                 }, null, this);
             }
@@ -135,16 +142,22 @@ class Play extends Phaser.Scene {
             if(this.skill_cd){
                 let acc_ratio = Math.sin(this.skill_timer.getProgress() * Math.PI + Math.PI) + 1;
                 this.debugging_text.setText("Enemy speed: " + acc_ratio.toString().substr(0, 4));
-                this.ship01.moveSpeed = game.settings.spaceshipSpeed * acc_ratio;
-                this.ship02.moveSpeed = game.settings.spaceshipSpeed * acc_ratio;
-                this.ship03.moveSpeed = game.settings.spaceshipSpeed * acc_ratio;
+                this.ship01.moveSpeed = this.ship01.origin_speed * acc_ratio;
+                this.ship02.moveSpeed = this.ship02.origin_speed * acc_ratio;
+                this.ship03.moveSpeed = this.ship03.origin_speed * acc_ratio;
+                this.ship04.moveSpeed = this.ship04.origin_speed * acc_ratio;
+
             }
             // ----------------------
+
+
+
 
             this.p1Rocket.update();             // update p1
             this.ship01.update();               // update spaceship (x3)
             this.ship02.update();
             this.ship03.update();
+            this.ship04.update();
         }
 
         // check collisions
@@ -160,6 +173,14 @@ class Play extends Phaser.Scene {
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
         }
+
+        if (this.checkCollision(this.p1Rocket, this.ship04)) {
+            this.p1Rocket.reset();
+            this.shipExplode(this.ship04);
+        }
+
+
+
     }
 
     checkCollision(rocket, ship) {

@@ -1,11 +1,14 @@
 
 /*
    #--------------------POINTS BREAKDOWN -----------------------------
-    High score
-    New explosion animation 
-    Timer showing remaining
-    Super fancy skill to slow down the enemy speed with a smooth curve
+    5 High score
+    10 New explosion animation 
+    10 Timer showing remaining
 
+    //weapon 1
+    20 Super fancy skill to slow down the enemy speed with a smooth curve (press W)
+    //weapon 2
+    Press Q/E to slightly redirect to left/right while firing, and get speedup
 
 
 */
@@ -27,7 +30,7 @@ let highscore = 0;
 // reserve keyboard variables
 let keyF, keyR, keyLEFT, keyRIGHT;
 // # new features
-let keyW, keyQ;
+let keyW, keyQ, keyE;
 
 
 
