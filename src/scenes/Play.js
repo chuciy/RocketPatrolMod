@@ -79,7 +79,7 @@ class Play extends Phaser.Scene {
         });
         this.anims.create({
             key: 'explode_1',
-            frames: this.anims.generateFrameNumbers('explosion_1', { start: 0, end: 8, first: 0}),
+            frames: this.anims.generateFrameNumbers('explosion_1', { start: 0, end: 7, first: 0}),
             frameRate: 30
         });
 
