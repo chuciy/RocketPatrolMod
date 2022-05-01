@@ -16,6 +16,8 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('explosion_2', './assets/explosion2.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 6});
         this.load.spritesheet('explosion_3', './assets/explosion3.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 6});
 
+        this.load.spritesheet('spaceship2', './assets/spaceship2.png', {frameWidth: 63, frameHeight: 32, startFrame: 0, endFrame: 1});
+
         this.anime_list = ['explode', 'explode_decay','explode_1','explode_2', 'explode_3' ];
     }
 
@@ -45,8 +47,8 @@ class Play extends Phaser.Scene {
         this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'spaceship', 0, 20, 1.1).setOrigin(0,0);
         this.ship03 = new Spaceship(this, game.config.width                 , borderUISize*6 + borderPadding*4, 'spaceship', 0, 10, 1.2).setOrigin(0,0);
 
-        this.ship04 = new Spaceship(this, game.config.width                 , borderUISize*7 + borderPadding*6, 'spaceship', 0, 51, 1.75).setOrigin(0,0);
-
+        this.ship04 = new Spaceship(this, game.config.width                 , borderUISize*7 + borderPadding*6, 'spaceship2', 0, 51, 0.85).setOrigin(0,0);
+          
 
         // # particle
         this.particles = this.add.particles('particle');
@@ -94,6 +96,14 @@ class Play extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('explosion_3', { start: 0, end: 6, first: 0}),
             frameRate: 30
         });
+
+        this.anims.create({
+            key: 'spaceship2',
+            frames: 'spaceship2',
+            frameRate: 10,
+            repeat: -1
+        });
+        this.ship04.anims.play('spaceship2', true);  
 
 
         
