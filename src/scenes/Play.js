@@ -13,8 +13,10 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         this.load.spritesheet('explosion_decay', './assets/explosion_decay.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 8});
         this.load.spritesheet('explosion_1', './assets/explosion_1.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 7});
+        this.load.spritesheet('explosion_2', './assets/explosion2.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 6});
+        this.load.spritesheet('explosion_3', './assets/explosion3.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 6});
 
-        this.anime_list = ['explode', 'explode_decay','explode_1'];
+        this.anime_list = ['explode', 'explode_decay','explode_1','explode_2', 'explode_3' ];
     }
 
     create() {
@@ -80,6 +82,16 @@ class Play extends Phaser.Scene {
         this.anims.create({
             key: 'explode_1',
             frames: this.anims.generateFrameNumbers('explosion_1', { start: 0, end: 7, first: 0}),
+            frameRate: 30
+        });
+        this.anims.create({
+            key: 'explode_2',
+            frames: this.anims.generateFrameNumbers('explosion_2', { start: 0, end: 6, first: 0}),
+            frameRate: 30
+        });
+        this.anims.create({
+            key: 'explode_3',
+            frames: this.anims.generateFrameNumbers('explosion_3', { start: 0, end: 6, first: 0}),
             frameRate: 30
         });
 
@@ -231,7 +243,7 @@ class Play extends Phaser.Scene {
         ship.alpha = 0;                         
         // create explosion sprite at ship's position
         // random choice
-        let idx = Math.floor(Math.random() * 3);
+        let idx = Math.floor(Math.random() * 5);
         let boom = this.add.sprite(ship.x, ship.y, this.anime_list[idx]).setOrigin(0, 0);
         boom.anims.play(this.anime_list[idx]);             // play explode animation
         boom.on('animationcomplete', () => {    // callback after anim completes
